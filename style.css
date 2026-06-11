@@ -1,0 +1,797 @@
+/* ============================================================
+   Dynamia Soluciones — Antigravity
+   Design System v2.2 Dark | style.css
+   ============================================================ */
+ 
+/* ── 1. Design Tokens ─────────────────────────────────────── */
+:root {
+    /* ─── Paleta base oscura ──────────────────────────────── */
+    --color-dark-950: #07090f;   /* Negro casi puro */
+    --color-dark-900: #0d1117;   /* Fondo principal */
+    --color-dark-800: #161b22;   /* Superficies: cards, tabla */
+    --color-dark-750: #1c2333;   /* Cabecera tabla / thead */
+    --color-dark-700: #21262d;   /* Detalle / acordeón */
+    --color-dark-600: #30363d;   /* Bordes estándar */
+    --color-dark-500: #484f58;   /* Bordes fuertes / separadores */
+    --color-dark-400: #6e7681;   /* Texto apagado */
+    --color-dark-200: #8b949e;   /* Texto muted secundario */
+    --color-dark-100: #b1bac4;   /* Texto muted legible */
+ 
+    /* ─── Acento primario — Azul eléctrico vibrante ───────── */
+    --color-sky-400:  #38bdf8;   /* Más brillante sobre oscuro */
+    --color-sky-500:  #0ea5e9;
+    --color-sky-600:  #0284c7;
+    --color-sky-900:  #0c2340;   /* Hover sutil sobre oscuro */
+    --color-sky-950:  #071827;   /* Hover mínimo */
+ 
+    /* ─── Semantic Mapping ─────────────────────────────────── */
+ 
+    /* Fondos */
+    --color-bg-main:    #0d1117;   /* Fondo general — casi negro azulado */
+    --color-bg-surface: #161b22;   /* Tarjetas y tabla — un escalón arriba */
+    --color-bg-thead:   #1c2333;   /* Cabecera tabla — diferenciada */
+    --color-bg-details: #161b22;   /* Fila de detalle / acordeón */
+ 
+    /* Bordes */
+    --color-border:        #30363d;  /* Borde estándar — cuadrícula */
+    --color-border-strong: #484f58;  /* Separador de cabecera */
+ 
+    /* Texto */
+    --text-main:  #e6edf3;           /* Blanco frío — alta legibilidad */
+    --text-muted: var(--color-dark-100);
+ 
+    /* Aliases de compatibilidad */
+    --bg-body:      var(--color-bg-main);
+    --bg-surface:   var(--color-bg-surface);
+    --border-color: var(--color-border);
+ 
+    /* Primary Accent */
+    --primary:       var(--color-sky-400);   /* Más brillante que sky-500 sobre dark */
+    --primary-hover: var(--color-sky-500);
+    --primary-light: var(--color-sky-950);
+ 
+    /* State Semantics — versión dark: texto brillante, bg muy oscuro */
+    --status-red:        #f87171;
+    --status-red-bg:     #2d1010;
+    --status-yellow:     #fbbf24;
+    --status-yellow-bg:  #2d1f05;
+    --status-yellow-txt: #fbbf24;
+    --status-green:      #34d399;
+    --status-green-bg:   #052d1e;
+ 
+    /* Radii */
+    --radius-sm:    4px;
+    --radius-btn:   8px;
+    --radius-modal: 8px;
+    --radius-card:  10px;
+ 
+    /* Typography — Inter, base compacta 13 px */
+    --font-sans:      'Inter', system-ui, -apple-system, sans-serif;
+    --font-size-base: 13px;
+    --font-size-xs:   0.769rem;
+    --font-size-sm:   0.923rem;
+    --font-size-md:   1rem;
+    --font-size-lg:   1.154rem;
+    --font-size-xl:   1.308rem;
+    --font-size-2xl:  1.538rem;
+ 
+    /* Sombras — más pronunciadas sobre oscuro */
+    --shadow-xs: 0 1px 2px rgba(0,0,0,.25);
+    --shadow-sm: 0 1px 3px rgba(0,0,0,.35), 0 1px 2px rgba(0,0,0,.25);
+    --shadow-md: 0 4px 6px -1px rgba(0,0,0,.4), 0 2px 4px -1px rgba(0,0,0,.25);
+    --shadow-lg: 0 10px 15px -3px rgba(0,0,0,.5), 0 4px 6px -2px rgba(0,0,0,.3);
+ 
+    /* Tabla: variables de densidad */
+    --table-cell-py: 0.55rem;
+    --table-head-py: 0.5rem;
+    --table-cell-px: 0.875rem;
+}
+ 
+/* ── 2. Reset ─────────────────────────────────────────────── */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+ 
+html { font-size: var(--font-size-base); }
+ 
+body {
+    font-family: var(--font-sans);
+    background-color: var(--color-bg-main);
+    color: var(--text-main);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+ 
+/* ── 3. Utility Classes ───────────────────────────────────── */
+.hidden        { display: none !important; }
+.text-right    { text-align: right !important; }
+.text-center   { text-align: center; }
+.text-muted    { color: var(--text-muted); }
+.text-primary  { color: var(--primary); }
+.fw-600        { font-weight: 600; }
+.fw-700        { font-weight: 700; }
+.font-tabular  { font-variant-numeric: tabular-nums; }
+.mb-1          { margin-bottom: 0.308rem; }
+.mb-2          { margin-bottom: 0.615rem; }
+ 
+/* ── 4. Layout ────────────────────────────────────────────── */
+.app-container {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 1.25rem 1rem;   /* Sin padding-top: el header sticky lo ocupa */
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+    min-height: 100vh;
+}
+ 
+/* ── 5. Header / Nav Bar — estilo minimalista ─────────────── */
+.app-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(22, 27, 34, 0.82);   /* --color-bg-surface con transparencia */
+    backdrop-filter: saturate(180%) blur(18px);
+    -webkit-backdrop-filter: saturate(180%) blur(18px);
+    padding: 0 2rem;
+    height: 44px;                          /* Altura exacta al estilo Apple */
+    border-radius: 0;                      /* Ocupa todo el ancho sin bordes */
+    border-bottom: 1px solid var(--color-border);
+    box-shadow: none;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    gap: 0;
+    /* Anula el border-radius del contenedor para que vaya de borde a borde */
+    margin-left: -1.25rem;
+    margin-right: -1.25rem;
+    margin-top: -1rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+}
+ 
+/* Zona izquierda — icono + nombre de marca */
+.header-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-shrink: 0;
+}
+ 
+.header-brand .brand-icon {
+    width: 26px;
+    height: 26px;
+    background: linear-gradient(135deg, var(--primary), var(--color-sky-600));
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #07090f;
+    font-size: 0.7rem;
+    flex-shrink: 0;
+}
+ 
+.header-brand .brand-text h1 {
+    font-size: var(--font-size-md);
+    font-weight: 600;
+    color: var(--text-main);
+    line-height: 1;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+}
+ 
+/* El subtítulo se oculta en la nav bar compacta */
+.header-brand .brand-text span {
+    display: none;
+}
+ 
+/* Zona derecha — acciones */
+.header-actions {
+    display: flex;
+    gap: 0.35rem;
+    align-items: center;
+}
+ 
+/* Botones outline se vuelven fantasma dentro de la nav */
+.app-header .btn-outline {
+    border-color: transparent;
+    color: var(--text-muted);
+    font-size: var(--font-size-sm);
+    padding: 0.3rem 0.65rem;
+}
+.app-header .btn-outline:hover {
+    background-color: var(--color-dark-700);
+    color: var(--text-main);
+    border-color: transparent;
+}
+ 
+/* Botón primario más compacto en la nav */
+.app-header .btn-primary {
+    font-size: var(--font-size-sm);
+    padding: 0.3rem 0.75rem;
+}
+ 
+/* ── 6. Buttons ───────────────────────────────────────────── */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    font-weight: 500;
+    font-size: var(--font-size-sm);
+    padding: 0.4rem 0.85rem;
+    border-radius: var(--radius-btn);
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: background-color 0.15s, border-color 0.15s, color 0.15s, box-shadow 0.15s;
+    font-family: inherit;
+    line-height: 1.4;
+    white-space: nowrap;
+}
+ 
+.btn-primary {
+    background-color: var(--primary);
+    color: #07090f;   /* Texto oscuro sobre azul brillante */
+    border-color: var(--primary);
+    font-weight: 600;
+}
+.btn-primary:hover {
+    background-color: var(--color-sky-500);
+    border-color: var(--color-sky-500);
+    box-shadow: 0 0 0 3px rgba(56,189,248,.2);
+}
+ 
+.btn-success {
+    background-color: var(--status-green);
+    color: #07090f;
+    border-color: var(--status-green);
+    font-weight: 600;
+}
+.btn-success:hover {
+    background-color: #10b981;
+    border-color: #10b981;
+}
+ 
+.btn-outline {
+    background-color: transparent;
+    border-color: var(--color-border);
+    color: var(--text-main);
+}
+.btn-outline:hover {
+    background-color: var(--color-dark-700);
+    border-color: var(--color-dark-500);
+}
+ 
+.btn-danger {
+    background-color: transparent;
+    border-color: var(--status-red);
+    color: var(--status-red);
+}
+.btn-danger:hover {
+    background-color: var(--status-red-bg);
+}
+ 
+/* Botones de icono dentro de la tabla */
+.btn-icon {
+    width: 28px;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-btn);
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.15s, color 0.15s;
+    background: transparent;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+.btn-icon:hover                { color: var(--text-main); }
+.btn-icon.action-toggle:hover  { background-color: var(--color-dark-700); color: var(--primary); }
+.btn-icon.action-pay:hover     { background-color: var(--color-sky-950);  color: var(--primary); }
+.btn-icon.action-edit:hover    { background-color: var(--color-dark-700); color: var(--color-dark-100); }
+.btn-icon.action-delete:hover  { background-color: var(--status-red-bg);  color: var(--status-red); }
+ 
+/* Animación del chevron */
+.btn-icon.action-toggle i {
+    transition: transform 0.22s ease;
+}
+.btn-icon.action-toggle.is-open i {
+    transform: rotate(180deg);
+}
+ 
+/* ── 7. KPI Summary Strip — Barra de totales fija al fondo ── */
+/* Posición fija en la parte inferior de la ventana,
+   ocupa todo el ancho como una status bar de escritorio.   */
+ 
+.dashboard-summary {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 40;
+    display: flex;
+    align-items: stretch;
+    background: rgba(22, 27, 34, 0.92);
+    backdrop-filter: saturate(180%) blur(14px);
+    -webkit-backdrop-filter: saturate(180%) blur(14px);
+    border-top: 1px solid var(--color-border-strong);
+    gap: 0;
+    height: 48px;                          /* Altura fija tipo status bar */
+}
+ 
+.summary-card {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0 1.5rem;
+    background: transparent;
+    border-radius: 0;
+    box-shadow: none;
+    border-right: 1px solid var(--color-border);
+    /* Acento superior por card */
+    border-top: 2px solid transparent;
+    transition: background-color 0.15s;
+}
+.summary-card:first-child  { border-top-color: var(--primary); }
+.summary-card:nth-child(2) { border-top-color: var(--status-red); }
+.summary-card:nth-child(3) { border-top-color: var(--status-yellow); border-right: none; }
+.summary-card:hover { background-color: rgba(255,255,255,.04); }
+ 
+/* Ícono — glifo plano, sin fondo */
+.summary-icon {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    background: transparent;
+    width: auto;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+ 
+/* Etiqueta y valor en línea horizontal para mayor compacidad */
+.summary-info {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+}
+ 
+.summary-info h3 {
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0;
+    white-space: nowrap;
+}
+ 
+.summary-info p {
+    font-size: var(--font-size-md);
+    font-weight: 700;
+    color: var(--text-main);
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    white-space: nowrap;
+}
+ 
+/* Compensación: evitar que la tabla quede oculta bajo la barra fija */
+.app-container {
+    padding-bottom: 64px;
+}
+ 
+/* ── 8. Table Controls — barra de búsqueda integrada ─────── */
+.table-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+ 
+.search-bar {
+    position: relative;
+    width: 100%;
+    max-width: 320px;
+}
+ 
+.search-bar i {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    pointer-events: none;
+}
+ 
+.search-bar input {
+    width: 100%;
+    padding: 0.38rem 0.75rem 0.38rem 2rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-btn);
+    font-size: var(--font-size-sm);
+    font-family: inherit;
+    background: var(--color-bg-surface);
+    color: var(--text-main);
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+.search-bar input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(56,189,248,.12);
+}
+.search-bar input::placeholder { color: var(--color-dark-400); }
+ 
+/* ── 9. Main Table ────────────────────────────────────────── */
+.table-container {
+    background: var(--color-bg-surface);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-md);
+    overflow-x: auto;
+    flex: 1;
+    border: 1px solid var(--color-border);
+}
+ 
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 900px;
+}
+ 
+/* ── Cabecera ── */
+thead {
+    background-color: var(--color-bg-thead);
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+ 
+th {
+    padding: var(--table-head-py) var(--table-cell-px);
+    text-align: left;
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.055em;
+    white-space: nowrap;
+    border-right: 1px solid var(--color-border);
+    border-bottom: 2px solid var(--color-border-strong);
+}
+th:last-child { border-right: none; }
+ 
+th.text-right  { text-align: right; }
+th.col-actions { text-align: right; }
+ 
+/* ── Filas de datos ── */
+td {
+    padding: var(--table-cell-py) var(--table-cell-px);
+    font-size: var(--font-size-md);
+    vertical-align: middle;
+    white-space: nowrap;
+    border-bottom: 1px solid var(--color-border);
+    border-right: 1px solid var(--color-border);
+}
+td:last-child { border-right: none; }
+ 
+tbody tr.data-row {
+    transition: background-color 0.12s;
+}
+tbody tr.data-row:hover {
+    background-color: var(--color-sky-950);
+}
+ 
+/* ── Celdas monetarias ── */
+.td-money {
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+}
+.td-money.interest  { color: var(--primary); }
+.td-money.payments  { color: var(--status-green); }
+.td-money.total-due { color: var(--text-main); font-weight: 700; }
+ 
+/* Celdas de tasa */
+.td-rate { text-align: right; }
+.td-type {
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+    font-weight: 400;
+}
+ 
+/* ── 10. Details / Accordion Row ─────────────────────────── */
+.details-row td {
+    padding: 0;
+    border-bottom: 2px solid var(--primary);
+    border-right: none;
+    background: var(--color-bg-details);
+}
+ 
+.details-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    padding: 0.875rem 1.25rem;
+}
+ 
+.details-section-title {
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.055em;
+    margin-bottom: 0.5rem;
+}
+ 
+/* Panel izquierdo — metadatos del cliente */
+.details-client-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+.details-info-item {
+    display: flex;
+    gap: 0.5rem;
+    font-size: var(--font-size-sm);
+    align-items: flex-start;
+}
+.details-info-item .label {
+    color: var(--text-muted);
+    min-width: 70px;
+    font-weight: 500;
+    flex-shrink: 0;
+}
+.details-info-item .value {
+    color: var(--text-main);
+    font-weight: 500;
+}
+ 
+/* Panel derecho — historial de pagos */
+.details-payments {
+    border-left: 1px solid var(--color-border);
+    padding-left: 1rem;
+}
+.payment-history-list {
+    max-height: 140px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border) transparent;
+}
+.payment-history-list::-webkit-scrollbar { width: 4px; }
+.payment-history-list::-webkit-scrollbar-thumb {
+    background: var(--color-dark-500);
+    border-radius: 2px;
+}
+ 
+.payment-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.25rem 0.5rem;
+    background: var(--color-dark-750);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+    font-size: var(--font-size-sm);
+}
+.payment-item .pay-date   { color: var(--text-muted); }
+.payment-item .pay-amount {
+    font-weight: 600;
+    color: var(--status-green);
+    font-variant-numeric: tabular-nums;
+}
+.no-payments {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+    font-style: italic;
+    padding: 0.35rem 0;
+}
+ 
+/* ── 11. Status Badges ────────────────────────────────────── */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.2rem 0.55rem;
+    border-radius: 9999px;
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    white-space: nowrap;
+}
+ 
+.status-indicator {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+ 
+.status-pendiente { color: var(--status-red);    background-color: var(--status-red-bg); }
+.status-pendiente .status-indicator { background-color: var(--status-red); }
+ 
+.status-parcial   { color: var(--status-yellow); background-color: var(--status-yellow-bg); }
+.status-parcial .status-indicator   { background-color: var(--status-yellow); }
+ 
+.status-saldado   { color: var(--status-green);  background-color: var(--status-green-bg); }
+.status-saldado .status-indicator   { background-color: var(--status-green); }
+ 
+/* ── 12. Action Buttons Column ────────────────────────────── */
+.action-buttons {
+    display: flex;
+    gap: 0.25rem;
+    justify-content: flex-end;
+    align-items: center;
+}
+ 
+/* ── 13. Empty State ──────────────────────────────────────── */
+.empty-state {
+    padding: 3rem 2rem;
+    text-align: center;
+    color: var(--text-muted);
+}
+.empty-state i {
+    font-size: 2.5rem;
+    margin-bottom: 0.75rem;
+    color: var(--color-dark-400);
+    display: block;
+}
+.empty-state p {
+    font-size: var(--font-size-md);
+}
+ 
+/* ── 14. Modals ───────────────────────────────────────────── */
+.modal {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(7, 9, 15, 0.75);   /* Overlay más profundo en dark */
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    padding: 1rem;
+}
+.modal.hidden { display: none !important; }
+ 
+.modal-content {
+    background: var(--color-bg-surface);
+    width: 100%;
+    max-width: 580px;
+    border-radius: var(--radius-modal);
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    flex-direction: column;
+    max-height: 92vh;
+    border-top: 3px solid var(--primary);
+    /* Borde sutil en los demás lados para definir el modal sobre el overlay */
+    border-left: 1px solid var(--color-border-strong);
+    border-right: 1px solid var(--color-border-strong);
+    border-bottom: 1px solid var(--color-border-strong);
+}
+.modal-sm { max-width: 400px; }
+ 
+.modal-header {
+    padding: 0 1.25rem 1rem;   /* Sin padding-top: el header sticky lo ocupa */
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+}
+.modal-header h2 {
+    font-size: var(--font-size-lg);
+    font-weight: 700;
+    color: var(--text-main);
+}
+ 
+.btn-close {
+    background: transparent;
+    border: none;
+    font-size: 1rem;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: var(--radius-sm);
+    transition: background-color 0.15s, color 0.15s;
+    line-height: 1;
+}
+.btn-close:hover {
+    background-color: var(--color-dark-700);
+    color: var(--text-main);
+}
+ 
+.modal-body {
+    padding: 1.1rem 1.25rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+    flex: 1;
+}
+ 
+.modal-footer {
+    padding: 0.875rem 1.25rem;
+    border-top: 1px solid var(--color-border);
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+}
+ 
+/* ── 15. Forms ────────────────────────────────────────────── */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+}
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+.full-width { grid-column: 1 / -1; }
+ 
+.form-group label {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--text-main);
+}
+ 
+.form-group input,
+.form-group select,
+.form-group textarea {
+    padding: 0.4rem 0.7rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-btn);
+    font-family: inherit;
+    font-size: var(--font-size-md);
+    color: var(--text-main);
+    background: var(--color-dark-750);
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(56,189,248,.12);
+}
+.form-group input::placeholder,
+.form-group textarea::placeholder { color: var(--color-dark-400); }
+ 
+/* ── 16. Responsive ───────────────────────────────────────── */
+@media (max-width: 768px) {
+    .app-container    { padding: 0 0.75rem 0.75rem; gap: 0.75rem; }
+    .form-row         { grid-template-columns: 1fr; }
+    .header-actions   { width: 100%; }
+    .header-actions .btn { flex: 1; }
+    .details-inner    { grid-template-columns: 1fr; }
+    .details-payments {
+        border-left: none;
+        border-top: 1px solid var(--color-border);
+        padding-left: 0;
+        padding-top: 0.75rem;
+    }
+    /* KPI status bar: en móvil reduce padding y oculta etiquetas */
+    .dashboard-summary { height: 44px; }
+    .summary-card { padding: 0 0.75rem; gap: 0.4rem; }
+    .summary-info h3 { display: none; }          /* Solo el valor, sin etiqueta */
+    .summary-info p { font-size: var(--font-size-sm); }
+    .app-container { padding-bottom: 56px; }
+    /* Header en móvil */
+    .app-header {
+        height: auto;
+        padding: 0.6rem 1rem;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+}

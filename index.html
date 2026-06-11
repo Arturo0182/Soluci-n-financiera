@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soluciones Financieras</title>
+    <meta name="description" content="Sistema de gestión de cartera y operaciones financieras de Dynamia Soluciones.">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="app-container">
+
+        <!-- ── HEADER ─────────────────────────────────────── -->
+        <header class="app-header">
+            <div class="header-brand">
+                <div class="brand-icon" aria-hidden="true">
+                    <i class="fa-solid fa-chart-line"></i>
+                </div>
+                <div class="brand-text">
+                    <h1>Nombre de tu empresa</h1>
+                    <span>Nombre del negocio<span>
+                </div>
+            </div>
+
+            <div class="header-actions">
+                <button id="btn-backup-export" class="btn btn-outline" title="Descargar copia de seguridad JSON">
+                    <i class="fa-solid fa-download"></i> Respaldar
+                </button>
+                <button id="btn-backup-import" class="btn btn-outline" title="Restaurar copia de seguridad JSON">
+                    <i class="fa-solid fa-upload"></i> Restaurar
+                </button>
+                <input type="file" id="import-file" accept=".json" class="hidden" aria-hidden="true">
+                <button id="btn-export" class="btn btn-outline" title="Exportar cartera a CSV (Excel)">
+                    <i class="fa-solid fa-file-csv"></i> Exportar
+                </button>
+                <button id="btn-new-client" class="btn btn-primary">
+                    <i class="fa-solid fa-plus"></i> Nuevo Cliente
+                </button>
+            </div>
+        </header>
+
+        <!-- ── KPI CARDS ──────────────────────────────────── -->
+        <div class="dashboard-summary">
+            <div class="summary-card">
+                <div class="summary-icon"><i class="fa-solid fa-users"></i></div>
+                <div class="summary-info">
+                    <h3>Total Clientes</h3>
+                    <p id="summary-clients">0</p>
+                </div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-icon"><i class="fa-solid fa-money-bill-wave"></i></div>
+                <div class="summary-info">
+                    <h3>Total Adeudado (COP)</h3>
+                    <p id="summary-debt">$0</p>
+                </div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-icon"><i class="fa-solid fa-arrow-trend-up"></i></div>
+                <div class="summary-info">
+                    <h3>Intereses Generados (COP)</h3>
+                    <p id="summary-interests">$0</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── TABLE CONTROLS ─────────────────────────────── -->
+        <div class="table-controls">
+            <div class="search-bar">
+                <i class="fa-solid fa-search" aria-hidden="true"></i>
+                <input type="text" id="search-input" placeholder="Buscar por nombre o cédula..." aria-label="Buscar cliente">
+            </div>
+        </div>
+
+        <!-- ── MAIN TABLE ─────────────────────────────────── -->
+        <div class="table-container">
+            <table id="main-table" aria-label="Cartera de clientes">
+                <thead>
+                    <tr>
+                        <th style="width:36px;"></th><!-- toggle -->
+                        <th>Cliente</th>
+                        <th>Fecha Inicio</th>
+                        <th class="text-right">Monto Inicial (COP)</th>
+                        <th class="text-right">Tasa</th>
+                        <th class="text-right">Interés Acum. (COP)</th>
+                        <th class="text-right">Abonos (COP)</th>
+                        <th class="text-right">Total a Pagar (COP)</th>
+                        <th>Estado</th>
+                        <th class="col-actions">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body">
+                    <!-- Rows injected by JS -->
+                </tbody>
+            </table>
+
+            <!-- Empty state -->
+            <div id="empty-state" class="empty-state hidden">
+                <i class="fa-solid fa-folder-open" aria-hidden="true"></i>
+                <p>No hay clientes registrados o que coincidan con la búsqueda.</p>
+            </div>
+        </div>
+
+    </div><!-- /.app-container -->
+
+    <!-- ── MODAL: CLIENT FORM ─────────────────────────────── -->
+    <div id="client-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Agregar Nuevo Cliente</h2>
+                <button class="btn-close" onclick="closeModal('client-modal')" aria-label="Cerrar">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <form id="client-form" class="modal-body" novalidate>
+                <input type="hidden" id="form-id">
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="form-cedula">Cédula *</label>
+                        <input type="text" id="form-cedula" required pattern="[0-9]+" title="Solo números" placeholder="Ej. 1234567890">
+                    </div>
+                    <div class="form-group">
+                        <label for="form-name">Nombre completo *</label>
+                        <input type="text" id="form-name" required placeholder="Ej. Juan Pérez">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="form-phone">Teléfono / Contacto</label>
+                        <input type="text" id="form-phone" placeholder="Ej. 3001234567">
+                    </div>
+                    <div class="form-group">
+                        <label for="form-amount">Monto Inicial (COP) *</label>
+                        <input type="number" id="form-amount" step="any" min="0" required placeholder="Ej. 1000000">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="form-date">Fecha de Inicio *</label>
+                        <input type="date" id="form-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="form-rate">Tasa de Interés (% Mensual) *</label>
+                        <input type="number" id="form-rate" step="0.01" min="0" required placeholder="Ej. 5">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group full-width">
+                        <label for="form-type">Tipo de Interés *</label>
+                        <select id="form-type" required>
+                            <option value="simple">Interés Simple</option>
+                            <option value="compuesto">Interés Compuesto</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="form-notes">Notas u Observaciones</label>
+                    <textarea id="form-notes" rows="2" placeholder="Información adicional..."></textarea>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" onclick="closeModal('client-modal')">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa-solid fa-floppy-disk"></i> Guardar Cliente
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ── MODAL: PAYMENT ─────────────────────────────────── -->
+    <div id="payment-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="payment-modal-title">
+        <div class="modal-content modal-sm">
+            <div class="modal-header">
+                <h2 id="payment-modal-title">Registrar Abono</h2>
+                <button class="btn-close" onclick="closeModal('payment-modal')" aria-label="Cerrar">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <form id="payment-form" class="modal-body" novalidate>
+                <input type="hidden" id="payment-client-id">
+                <p class="mb-1">Cliente: <strong id="payment-client-name"></strong></p>
+                <p class="mb-2 text-muted" style="font-size:var(--font-size-sm)">
+                    Saldo pendiente: <strong id="payment-current-debt"></strong>
+                </p>
+
+                <div class="form-group full-width">
+                    <label for="payment-amount">Monto del Abono (COP) *</label>
+                    <input type="number" id="payment-amount" step="any" min="0.01" required placeholder="Ej. 500000">
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" onclick="closeModal('payment-modal')">Cancelar</button>
+                    <button type="submit" class="btn btn-success">
+                        <i class="fa-solid fa-hand-holding-dollar"></i> Registrar Pago
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

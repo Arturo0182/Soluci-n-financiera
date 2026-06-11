@@ -1,0 +1,14 @@
+# Archivos de Base de Datos SQLite (NUNCA SUBIR)
+*.db
+*.db-shm
+*.db-wal
+
+# Archivos de Entorno Virtual y Secretos
+.env
+__pycache__/
+.venv/
+env/
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
