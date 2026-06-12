@@ -1,10 +1,10 @@
-# Antigravity v2.0 — Sistema de Gestión de Cartera Financiera
+ Sistema de Gestión de Cartera Financiera
 
-## 🎯 Descripción
+## Descripción
 
 Antigravity es un **sistema empresarial de gestión de cartera financiera** que calcula intereses diarios exactos, registra abonos y audita recaudos en **Pesos Colombianos (COP)**.
 
-## ✨ Características
+## Características
 
 - ✅ Cálculo exacto de intereses diarios (simple & compuesto)
 - ✅ Gestión de cartera de clientes con UUID
@@ -16,7 +16,7 @@ Antigravity es un **sistema empresarial de gestión de cartera financiera** que 
 - ✅ Seguridad OWASP completa (SQL Injection, XSS, CORS)
 - ✅ Integridad referencial garantizada (SQLite + CASCADE)
 
-## 🚀 Deployment
+## Deployment
 
 ### Local Development
 
@@ -67,7 +67,7 @@ heroku open
 
 Tu app estará disponible en: **https://your-app-name.herokuapp.com**
 
-## 🏗️ Estructura del Proyecto
+## Estructura del Proyecto
 
 ```
 antigravity/
@@ -97,7 +97,7 @@ POST   /api/clientes/{id}/payments # Registrar abono
 - Swagger UI: `/docs`
 - ReDoc: `/redoc`
 
-## 🔒 Seguridad
+## Seguridad
 
 - **SQL Injection**: Prepared Statements (?, ?)
 - **XSS**: Saneamiento centralizado de entrada
@@ -105,7 +105,7 @@ POST   /api/clientes/{id}/payments # Registrar abono
 - **Validación**: Pydantic schemas
 - **Logging**: Centralizado sin data leakage
 
-## 📊 Stack Técnico
+## Stack Técnico
 
 - **Backend**: FastAPI (Python)
 - **Database**: SQLite (Relacional)
@@ -113,7 +113,7 @@ POST   /api/clientes/{id}/payments # Registrar abono
 - **Server**: Uvicorn
 - **Deployment**: Heroku, Railway, Render, etc.
 
-## 🧪 Testing
+## Testing
 
 Todos los endpoints fueron validados:
 - ✓ CREATE Cliente (HTTP 201)
@@ -124,14 +124,14 @@ Todos los endpoints fueron validados:
 - ✓ Validación de abonos (HTTP 400)
 - ✓ Cascada FK (verificada)
 
-## 📚 Documentación
+## Documentación
 
 - `IMPLEMENTATION_SUMMARY.md` — Especificación técnica
 - `CHANGES_SUMMARY.md` — Detalle de cambios
 - `QUICK_START.md` — Guía de uso rápido
 - `plan.md` — Plan de proyecto
 
-## 🆘 Troubleshooting
+## Troubleshooting
 
 ### "Error al conectar con servidor"
 ```
@@ -150,14 +150,14 @@ uvicorn.run(..., port=8001)
 Solución: Respalda datos, elimina antigravity.db y reinicia
 ```
 
-## 📞 Soporte
+## Soporte
 
 Para preguntas técnicas, revisa:
 - Documentación en README.md
 - API Docs en `/docs`
 - Código fuente comentado en main.py
 
-## 📄 Licencia
+## Licencia
 
 Proyecto privado — Dynamia Soluciones Financieras
 
